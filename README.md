@@ -37,3 +37,66 @@ Pressing a button causes the Pico to read a WAV file from the microSD card and a
 | MAX98357A Amplifier | Converts I²S digital audio into amplified speaker output |
 | Speaker | Plays the audio samples |
 | USB Power | Powers the Pico W during initial testing |
+
+# Wiring Diagram
+
+The project uses premade modules and jumper wires rather than a custom PCB. All modules share a common ground, and the Pico W's GPIO signals uses 3.3V logic.
+
+<img width="317" height="373" alt="image" src="https://github.com/user-attachments/assets/d57d4d3a-b638-41b5-b2db-02c1e28a9480" />
+
+### Raspberry Pi Pico W Pin Connections
+
+| Module / Signal | Pico W Pin |
+|---|---|
+| OLED SDA | GP0 |
+| OLED SCL | GP1 |
+| Multiplexer S0 | GP2 |
+| Multiplexer S1 | GP3 |
+| Multiplexer S2 | GP4 |
+| Multiplexer S3 | GP5 |
+| Button 1 | GP6 |
+| Button 2 | GP7 |
+| Button 3 | GP8 |
+| Button 4 | GP9 |
+| MAX98357A BCLK | GP10 |
+| MAX98357A LRC / WS | GP11 |
+| MAX98357A DIN | GP12 |
+| microSD MISO | GP16 |
+| microSD CS | GP17 |
+| microSD SCK | GP18 |
+| microSD MOSI | GP19 |
+| Multiplexer SIG / COM | GP26 (ADC0) |
+
+Connect the multiplexer enable pin to GND, and connect its C0-C5 channels to the six potentiometer wipers. Each potentiometer's outer terminals connect to 3v3/5v and GND.
+
+For each button, connect one side to its assigned GPIO pin and the other side to GND. The firmware uses internal pull-up resistors.
+
+Connect the OLED, multiplexer, microSD module, and amplifier grounds to the Pico W's common ground. Connect the speaker only to the amplifier's SPK+ and SPK- terminals. Check the voltage requirements of your particular microSD and amplifier modules before powering them.
+
+# Software
+
+The firmware is written in Arduino C++ and is designed for the Raspberry Pi Pico W using the Arduino-Pico board core.
+
+# Required Software and Libraries
+
+- Arduino IDE
+- Arduino-Pico board core
+- Adafruit GFX Library
+- Adafruit SSD1306 Library
+- The SPI, SD, Wire, and I2S libraries provided by the selected board core.
+
+# Setup
+
+1. Install the Arduino IDE and the Arduino-Pico board core.
+2. Select the Raspberry Pi Pico W board.
+3. Install the Adafruit GFX and SSD1306 libraries through the Arduino Library Manager.
+4. Connect the OLED, controls, microSD module and the MAX98357A amplifier according to the wiring table.
+5. Format a compatible microSD card as **FAT32**.
+6. Copy four supported WAV files to the root of the card, named SAMPLE1.WAV, SAMPLE2.WAV, SAMPLE3.WAV, and SAMPLE4.WAV.
+7. Upload the firmware and power the board.
+
+The firmware currently requires uncompressed PCM WAVs with a standard 44 byte header, 16 bit mono PCM and a sample rate of 22050 Hz. The current implementation of playback is blocking, meaning that the main control loop is not continually reading buttons while a sample is playing.
+
+# Bill of Materials (BOM)
+
+The following table lists the hardware required to build the project. Prices are placeholders and should be updated to reflect the supplier, quantity, and currency you use.
