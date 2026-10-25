@@ -97,6 +97,33 @@ The firmware is written in Arduino C++ and is designed for the Raspberry Pi Pico
 
 The firmware currently requires uncompressed PCM WAVs with a standard 44 byte header, 16 bit mono PCM and a sample rate of 22050 Hz. The current implementation of playback is blocking, meaning that the main control loop is not continually reading buttons while a sample is playing.
 
-# Bill of Materials (BOM)
+## Bill of Materials (BOM)
+
+| Part | Purpose | Qty | Unit Price (CAD) | Total (CAD) | Vendor |
+|---|---|---:|---:|---:|---|
+| OLED 128x64 | Displays device status | 1 | $2.73 | $2.73 | AliExpress |
+| 6-Pack Potentiometers | Control music parameters | 1 | $7.11 | $7.11 | Amazon |
+| Momentary Push Buttons (10-Pack) | Control music playback and basic functions | 1 | $6.40 | $6.40 | Amazon |
+| CD74HC4067 16-Channel Analog Multiplexer | Expands available analog inputs | 1 | $1.28 | $1.28 | AliExpress |
+| 2-Way Switch (5-Pack) | Turns the device on and off | 1 | $2.55 | $2.55 | AliExpress |
+| USB-C Input Port (5-Pack) | Provides a USB-C power input | 1 | $3.20 | $3.20 | AliExpress |
+| MAX98357 Audio Amplifier | Amplifies audio for the speaker | 1 | $2.00 | $2.00 | AliExpress |
+| MicroSD Storage Expansion Board | Reads audio files from a microSD card over SPI | 1 | $1.53 | $1.53 | AliExpress |
+| Silicone Wire (24 AWG) | Connects electronic components | 1 | $2.85 | $2.85 | AliExpress |
+| **Total** | | | | **$29.65** | |
 
 The following table lists the hardware required to build the project. Prices are placeholders and should be updated to reflect the supplier, quantity, and currency you use.
+
+# Safety and Compatibility Notes
+
+- Do not apply 5V to Pico W GPIO pins. GPIO signals must remain within the board's supported 3.3V logic range.
+- Verify the microSD module's supply voltage and logic-level compatibility before connecting it.
+- Confirm that the speaker's impedance and power ratings are appropriate for the MAX98357A module.
+- Avoid connecting multiple power sources in a way that can backfeed the USB supply.
+- Test each module individually before assembling the full project.
+
+# Future Improvements
+
+- Add real time volume control while audio is playing.
+- Assign different functions to the six potentiometers, such as volume, pitch, filtering, and effects.
+- Add sample selection and playback indicatiors to the OLED interface.
